@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Find Delete Friend</title>
+        <link rel="icon" type="image" href="/images/logoicon.jpg" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+        <link rel="stylesheet" href="/stylesheets/FindDelete.css" />
+    </head>
+    <body>
+        <header class="head">
+            <h1 class="title">Find Delete Friend</h1>
+        </header>
+        <main class="chinh">
+            <form class="content" id="searchForm" method="GET">
+                <div class="icon">
+                    <a href="/" class="ic"><i class="fa-solid fa-house"></i></a>
+                </div>
+                <div class="form-group">
+                    <label class="ten" for="Name">Name:</label>
+                    <input type="text" id="Name" name="Name" />
+                </div>
+                <button class="btn" type="submit">Search</button>
+            </form>
+        </main>
+        <table id="friendsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>ID Card</th>
+                    <th>Province/City</th>
+                    <th>Year of Birth</th>
+                    <th>Image</th>
+                    <th style="width: 100px">
+                        <button class="btn" onclick="deleteAllFriends()">
+                            Delete All
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="friendsTableBody"></tbody>
+        </table>
+
+        <script>
+            document
+                .getElementById("searchForm")
+                .addEventListener("submit", async (event) => {
+                    event.preventDefault();
+
+                    const formData = new FormData(event.target);
+                    const Name = formData.get("Name");
+
+                    const response = await fetch(`/delete/search?Name=${Name}`);
+                    const data = await response.json();
+
+                    const friendsTableBody =
+                        document.getElementById("friendsTableBody");
+                    friendsTableBody.innerHTML = ""; // Xóa nội dung cũ của tbody
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach((friend) => {
+                            const row = `
+                    <tr>
+                        <td>${friend.Id}</td>
+                        <td>${friend.Name}</td>
+                        <td>${friend.IDCard}</td>
+                        <td>${friend.Countryside}</td>
+                        <td>${friend.Date}</td>
+                        <td><img src="/images/${friend.Image}" alt="Friend Image" class="friend-image"></td>
+                        <td><button class="btn" onclick="removeFriend('${friend.Id}')"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                    </tr>
+                `;
+                            friendsTableBody.insertAdjacentHTML(
+                                "beforeend",
+                                row
+                            );
+                        });
+                    } else {
+                        alert("Object not found.");
+                    }
+                });
+
+            async function removeFriend(friendId) {
+                try {
+                    const response = await fetch(`/deleted/${friendId}`, {
+                        method: "DELETE",
+                    });
+                    const message = await response.text();
+                    alert(message);
+                    // Sau khi xóa thành công, làm mới lại danh sách bạn bè
+                    document
+                        .getElementById("searchForm")
+                        .dispatchEvent(new Event("submit"));
+                } catch (error) {
+                    console.error("Error deleting friend:", error);
+                    alert("An error occurred while deleting the friend");
+                }
+            }
+            async function deleteAllFriends() {
+                try {
+                    const response = await fetch(`/delete/all`, {
+                        method: "DELETE",
+                    });
+                    const message = await response.text();
+                    alert(message);
+                    // Sau khi xóa thành công, làm mới lại danh sách bạn bè
+                    document
+                        .getElementById("searchForm")
+                        .dispatchEvent(new Event("submit"));
+                } catch (error) {
+                    console.error("Error deleting all friends:", error);
+                    alert("An error occurred while deleting all friends");
+                }
+            }
+        </script>
+    </body>
+</html>

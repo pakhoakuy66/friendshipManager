@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5deb3;
+    margin: 10px;
+}
+
+.head {
+    background-color: #704b2ee8;
+    padding: 15px;
+    text-align: center;
+    border-radius: 2em;
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.853);
+}
+
+.titile {
+    color: #fff;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.chinh {
+    width: 400px;
+    margin: 5em 25em;
+    background-color: #a3b0ce;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.853);
+}
+.icon {
+    display: flex;
+    justify-content: flex-end;
+}
+.ic {
+    color: #f5deb3;
+    transition: 0.5s;
+}
+.ic:hover {
+    color: #704b2ee8;
+}
+.content {
+    padding: 10px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"] {
+    width: 96%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: #ffe4e1;
+    border-radius: 5px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #2a9ac0b5;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.5s, color 0.5s, border-radius 0.5s;
+}
+
+.btn:hover {
+    background-color: #1a4a5ab5;
+    color: #fff;
+    border-radius: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th,
+td {
+    background-color: #f5f5dc;
+    border: 2px solid #000;
+    padding: 8px;
+    text-align: left;
+    font-weight: bold;
+}
+th {
+    background-color: #51321acf;
+}
+.friend-image {
+    max-width: 100px;
+    max-height: 100px;
+}

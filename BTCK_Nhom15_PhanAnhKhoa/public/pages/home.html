@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Home</title>
+        <link rel="icon" type="image" href="/images/logoicon.jpg" />
+        <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="/stylesheets/home.css" />
+    </head>
+    <body>
+        <header class="head">
+            <h1 class="title">Home</h1>
+        </header>
+        <nav id="content">
+            <ul class="list">
+                <li class="tent">
+                    <a class="item" href="/createFriend">Create Friend</a>
+                </li>
+                <li class="tent">
+                    <a class="item" href="/findFriend">Find Friend</a>
+                </li>
+                <li class="tent">
+                    <a class="item" href="/updateFriend">Update Friend</a>
+                </li>
+                <li class="tent">
+                    <a class="item" href="/deleteFriend">Delete Friend</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="nhom">
+            <h2 class="team">Nhóm 15: Phan Anh Khoa</h2>
+        </div>
+        <div class="slide">
+            <div class="slide_show">
+                <div class="List_images">
+                    <img class="img" src="/images/Best-friend.webp" alt="" />
+                    <img class="img" src="/images/friendship.webp" alt="" />
+                    <img class="img" src="/images/Friend.jpg" alt="" />
+                    <img class="img" src="/images/forever.jpg" alt="" />
+                </div>
+                <div class="btns">
+                    <div class="btn-left btn">
+                        <i class="bx bx-chevron-left"></i>
+                    </div>
+                    <div class="btn-right btn">
+                        <i class="bx bx-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="index-images">
+                    <div class="index-item index-item-0 active"></div>
+                    <div class="index-item index-item-1"></div>
+                    <div class="index-item index-item-2"></div>
+                    <div class="index-item index-item-3"></div>
+                </div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>ID Card</th>
+                    <th>Province/City</th>
+                    <th>Year of Birth</th>
+                    <th>Image</th>
+                    <th style="width: 100px">
+                        <button class="buttun" onclick="handleFileSelect()">
+                            Import JSON
+                        </button>
+                        <input
+                            type="file"
+                            id="fileInput"
+                            accept=".json"
+                            style="display: none"
+                        />
+                        <pre id="fileContents"></pre>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="friendsTableBody"></tbody>
+        </table>
+    </body>
+    <script>
+        const listImage = document.querySelector(".List_images");
+        const images = document.getElementsByTagName("img");
+        const btnLeft = document.querySelector(".btn-left");
+        const btnRight = document.querySelector(".btn-right");
+        const length = images.length;
+        let current = 0;
+
+        const handlechangeslide = () => {
+            if (current == length - 1) {
+                current = 0;
+                let width = images[0].offsetWidth;
+                listImage.style.transform = `translateX(0px)`;
+                document.querySelector(".active").classList.remove("active");
+                document
+                    .querySelector(".index-item-" + current)
+                    .classList.add("active");
+            } else {
+                current++;
+                let width = images[0].offsetWidth;
+                listImage.style.transform = `translateX(${
+                    width * -1 * current
+                }px)`;
+                document.querySelector(".active").classList.remove("active");
+                document
+                    .querySelector(".index-item-" + current)
+                    .classList.add("active");
+            }
+        };
+        let hangdleEventchangesilde = setInterval(handlechangeslide, 4000);
+
+        btnRight.addEventListener("click", () => {
+            clearInterval(hangdleEventchangesilde);
+            handlechangeslide();
+            hangdleEventchangesilde = setInterval(handlechangeslide, 4000);
+        });
+
+        btnLeft.addEventListener("click", () => {
+            clearInterval(hangdleEventchangesilde);
+            if (current == 0) {
+                current = length - 1;
+                let width = images[0].offsetWidth;
+                listImage.style.transform = `translateX(${
+                    width * -1 * current
+                }px)`;
+                document.querySelector(".active").classList.remove("active");
+                document
+                    .querySelector(".index-item-" + current)
+                    .classList.add("active");
+            } else {
+                current--;
+                let width = images[0].offsetWidth;
+                listImage.style.transform = `translateX(${
+                    width * -1 * current
+                }px)`;
+                document.querySelector(".active").classList.remove("active");
+                document
+                    .querySelector(".index-item-" + current)
+                    .classList.add("active");
+            }
+            hangdleEventchangesilde = setInterval(handlechangeslide, 4000);
+        });
+
+        // danh sach friends
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                // Gọi API để lấy danh sách bạn bè từ máy chủ
+                const response = await fetch("/friendsData");
+                const data = await response.json();
+
+                // Lấy thẻ tbody trong bảng để chèn các hàng dữ liệu
+                const friendsTableBody =
+                    document.getElementById("friendsTableBody");
+                friendsTableBody.innerHTML = ""; // Xóa nội dung cũ trong tbody
+
+                // Duyệt qua mảng dữ liệu và tạo các hàng dữ liệu
+                data.forEach((friend) => {
+                    const row = `
+                    <tr>
+                        <td>${friend.Id}</td>
+                        <td>${friend.Name}</td>
+                        <td>${friend.IDCard}</td>
+                        <td>${friend.Countryside}</td>
+                        <td>${friend.Date}</td>
+                        <td><img src="/images/${friend.Image}" alt="Friend Image" class="friend-image"></td>
+                        <td></td>
+                    </tr>
+                `;
+                    // Chèn hàng vào tbody của bảng
+                    friendsTableBody.insertAdjacentHTML("beforeend", row);
+                });
+            } catch (error) {
+                console.error("Failed to fetch friends data:", error);
+            }
+        });
+        function handleFileSelect() {
+            const fileInput = document.getElementById("fileInput");
+            fileInput.click(); // Kích hoạt sự kiện chọn file
+
+            fileInput.addEventListener("change", async (event) => {
+                const file = event.target.files[0];
+
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const content = e.target.result;
+
+                    try {
+                        const jsonData = JSON.parse(content);
+                        displayData(jsonData);
+                    } catch (error) {
+                        console.error("Error parsing JSON:", error);
+                    }
+                };
+
+                reader.readAsText(file);
+            });
+        }
+
+        function displayData(data) {
+            const friendsTableBody =
+                document.getElementById("friendsTableBody");
+            friendsTableBody.innerHTML = ""; // Xóa nội dung cũ trong tbody
+
+            data.forEach((friend) => {
+                const row = `
+            <tr>
+                <td>${friend.Id}</td>
+                <td>${friend.Name}</td>
+                <td>${friend.IDCard}</td>
+                <td>${friend.Countryside}</td>
+                <td>${friend.Date}</td>
+                <td><img src="/images/${friend.Image}" alt="Friend Image" class="friend-image"></td>
+            </tr>
+        `;
+
+                friendsTableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+    </script>
+</html>

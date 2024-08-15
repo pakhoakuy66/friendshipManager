@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Update Friend</title>
+        <link rel="icon" type="image" href="/images/logoicon.jpg" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+        <link rel="stylesheet" href="/stylesheets/update.css" />
+    </head>
+    <body onload="setFocusName()">
+        <div class="container">
+            <div class="icon">
+                <a href="/" class="ic"><i class="fa-solid fa-house"></i></a>
+            </div>
+            <h1 class="titile">Update Friend</h1>
+            <form id="personalForm">
+                <div class="form-group">
+                    <label class="ten" for="Id">ID:</label>
+                    <input
+                        class="txt"
+                        type="text"
+                        id="Id"
+                        name="Id"
+                        required
+                        readonly
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="ten" for="Name">Name:</label>
+                    <input
+                        class="txt"
+                        type="text"
+                        id="Name"
+                        name="Name"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="ten" for="IDCard">ID Card:</label>
+                    <input
+                        class="txt"
+                        type="number"
+                        id="IDCard"
+                        name="IDCard"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="ten" for="Countryside">Province/City:</label>
+                    <input
+                        class="txt"
+                        type="text"
+                        id="Countryside"
+                        name="Countryside"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="ten" for="Date">Year of Birth:</label>
+                    <input
+                        type="number"
+                        class="txt"
+                        id="Date"
+                        name="Date"
+                        min="1900"
+                        max="2024"
+                        required
+                    />
+                </div>
+                <input
+                    type="file"
+                    id="Image"
+                    name="Image"
+                    onchange="handleImageChange(event)"
+                />
+                <label class="up" for="Image"
+                    ><i class="fa-solid fa-upload"></i> Upload File</label
+                >
+                <div class="but" style="display: none">
+                    <button class="btn" type="button" onclick="updateFriend()">
+                        Update
+                    </button>
+                </div>
+                <div class="mess" id="message"></div>
+            </form>
+            <div id="message"></div>
+        </div>
+        <script>
+            const queryParams = new URLSearchParams(window.location.search);
+            const oldFriend = Object.fromEntries(queryParams.entries());
+            let newFriend = oldFriend;
+
+            document.getElementById("Id").value = oldFriend.Id;
+            document.getElementById("Name").value = oldFriend.Name;
+            document.getElementById("IDCard").value = oldFriend.IDCard;
+            document.getElementById("Countryside").value =
+                oldFriend.Countryside;
+            document.getElementById("Date").value = oldFriend.Date;
+            document.getElementById("Image").files[0] = oldFriend.Image;
+
+            function updateFriend() {
+                const formData = new FormData();
+                const updatedFriend = {
+                    Id: document.getElementById("Id").value,
+                    Name: document.getElementById("Name").value,
+                    IDCard: parseInt(document.getElementById("IDCard").value),
+                    Countryside: document.getElementById("Countryside").value,
+                    Date: parseInt(document.getElementById("Date").value),
+                    Image: document.getElementById("Image").files[0],
+                };
+
+                newFriend = updatedFriend;
+
+                formData.append("Id", updatedFriend.Id);
+                formData.append("Name", updatedFriend.Name);
+                formData.append("IDCard", updatedFriend.IDCard);
+                formData.append("Countryside", updatedFriend.Countryside);
+                formData.append("Date", updatedFriend.Date);
+                formData.append("Image", updatedFriend.Image);
+
+                fetch("/updatting", {
+                    method: "PUT",
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        alert(data.message);
+                        outputMessage(
+                            "The Friend updated successfully!!!",
+                            "green"
+                        );
+                        resetForm();
+                        check();
+                    })
+                    .catch((err) => {
+                        alert("Cannot update: " + err);
+                    });
+            }
+
+            function outputMessage(message, color) {
+                var messageElement = document.getElementById("message");
+                messageElement.textContent = message;
+                messageElement.style.color = color;
+            }
+
+            function resetForm() {
+                document.getElementById("personalForm").reset();
+                setFocusName();
+            }
+
+            function setFocusName() {
+                document.getElementById("Name").focus();
+            }
+
+            function handleImageChange(event) {
+                const file = event.target.files[0];
+                newFriend.Image = file;
+            }
+
+            var inputs = document.querySelectorAll(".txt");
+            inputs.forEach((input) => {
+                input.addEventListener("input", check);
+            });
+
+            function check() {
+                var Name = document.getElementById("Name").value.trim();
+                var IDCard = document.getElementById("IDCard").value.trim();
+                var Countryside = document
+                    .getElementById("Countryside")
+                    .value.trim();
+                var DateOfBirth = document.getElementById("Date").value.trim();
+
+                var submitButton = document.querySelector(".but");
+
+                var messageElement = document.getElementById("message");
+                messageElement.textContent = "";
+
+                var isValid = true;
+
+                if (Name === "") {
+                    outputMessage("Name cannot be empty", "red");
+                    isValid = false;
+                }
+
+                if (
+                    IDCard === "" ||
+                    IDCard.length !== 5 ||
+                    isNaN(parseInt(IDCard, 10))
+                ) {
+                    outputMessage(
+                        "Invalid ID Card number. Please enter a 5-digit number.",
+                        "red"
+                    );
+                    isValid = false;
+                }
+
+                if (Countryside === "") {
+                    outputMessage("Province/city cannot be empty", "red");
+                    isValid = false;
+                }
+
+                if (
+                    DateOfBirth === "" ||
+                    isNaN(parseInt(DateOfBirth, 10)) ||
+                    DateOfBirth <= 1900 ||
+                    DateOfBirth > new Date().getFullYear()
+                ) {
+                    outputMessage(
+                        "Invalid year of birth. Please enter a valid year.",
+                        "red"
+                    );
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    submitButton.style.display = "block";
+                } else {
+                    submitButton.style.display = "none";
+                }
+            }
+        </script>
+    </body>
+</html>

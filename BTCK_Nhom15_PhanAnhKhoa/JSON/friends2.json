@@ -1,0 +1,82 @@
+[
+    {
+        "Id": "frs0001",
+        "Name": "Hương",
+        "IDCard": 30425,
+        "Countryside": "Hội An",
+        "Date": 2004,
+        "Image": "girl.jpg"
+    },
+    {
+        "Id": "frs0002",
+        "Name": "Bảo",
+        "IDCard": 85922,
+        "Countryside": "An Giang",
+        "Date": 2000,
+        "Image": "boy.jpg"
+    },
+    {
+        "Id": "frs0003",
+        "Name": "Phụng",
+        "IDCard": 23971,
+        "Countryside": "Hà Giang",
+        "Date": 2003,
+        "Image": "fr.png"
+    },
+    {
+        "Id": "frs0004",
+        "Name": "Đại",
+        "IDCard": 32489,
+        "Countryside": "Lào Cai",
+        "Date": 2007,
+        "Image": "fr.png"
+    },
+    {
+        "Id": "frs0005",
+        "Name": "Tuấn",
+        "IDCard": 83205,
+        "Countryside": "Lâm Đồng",
+        "Date": 2005,
+        "Image": "friends.png"
+    },
+    {
+        "Id": "frs0006",
+        "Name": "Đông",
+        "IDCard": 66763,
+        "Countryside": "Bắc Ninh",
+        "Date": 2002,
+        "Image": "fr.png"
+    },
+    {
+        "Id": "frs0007",
+        "Name": "Hồng",
+        "IDCard": 82793,
+        "Countryside": "Long An",
+        "Date": 2002,
+        "Image": "friends.png"
+    },
+    {
+        "Id": "frs0008",
+        "Name": "Hùng",
+        "IDCard": 82351,
+        "Countryside": "Cần Thơ",
+        "Date": 2005,
+        "Image": "friends.png"
+    },
+    {
+        "Id": "frs0009",
+        "Name": "Lan",
+        "IDCard": 94326,
+        "Countryside": "yên Bái",
+        "Date": 1998,
+        "Image": "friends.png"
+    },
+    {
+        "Id": "frs0010",
+        "Name": "Thảo",
+        "IDCard": 17247,
+        "Countryside": "Bình Phước",
+        "Date": 2002,
+        "Image": "girl.jpg"
+    }
+]

@@ -1,0 +1,142 @@
+* {
+    box-sizing: 0;
+    margin: 0px;
+}
+body {
+    background-color: #f5deb3;
+}
+.head {
+    padding: 20px;
+    background-color: #704b2ee8;
+    color: #fff8dc;
+}
+h1 {
+    text-align: center;
+    font-weight: bold;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+#content {
+    padding: 10px;
+    background-color: #51321acf;
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.814);
+}
+.list {
+    display: flex;
+    justify-content: space-around;
+}
+.tent {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    list-style-type: none;
+}
+.item {
+    color: aliceblue;
+    text-decoration: none;
+    transition: background-color 0.8s, color 0.8s, border-radius 0.8s,
+        font-weight 0.8s;
+}
+.tent :hover {
+    font-weight: bold;
+    background-color: aliceblue;
+    color: black;
+    border-radius: 0.3em;
+}
+.nhom {
+    padding: 20px;
+}
+.team {
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.804);
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.buttun {
+    padding: 10px 20px; /* Đặt khoảng cách nội dung bên trong nút */
+    font-size: 10px; /* Kích thước chữ của nút */
+    font-weight: bold;
+    color: #fff; /* Màu chữ */
+    background-color: #2f80ed; /* Màu nền của nút */
+    border: none; /* Xóa viền */
+    border-radius: 5px; /* Bo góc */
+    cursor: pointer; /* Biểu tượng con trỏ khi rê chuột qua */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền */
+}
+
+.buttun:hover {
+    background-color: #1e63c6; /* Màu nền khi di chuột qua */
+}
+.img {
+    width: 100%;
+}
+.slide {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+}
+.slide_show {
+    width: 500px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    box-shadow: 0 20px 10px -5px rgba(0, 0, 0, 0.814);
+}
+.List_images {
+    display: flex;
+    transition: 1s;
+}
+.btn {
+    padding: 10px;
+    font-size: 35px;
+    color: #999;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.5s;
+    cursor: pointer;
+}
+.btn:hover {
+    color: #2f80ed;
+}
+.btn-left {
+    left: 0;
+}
+.btn-right {
+    right: 0;
+}
+.index-images {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.index-item {
+    border: 2px solid #999;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 50%;
+}
+.active {
+    background-color: #999;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th,
+td {
+    background-color: #f5f5dc;
+    border: 2px solid #000;
+    padding: 8px;
+    text-align: left;
+    font-weight: bold;
+}
+th {
+    background-color: #51321acf;
+}
+.friend-image {
+    max-width: 100px;
+    max-height: 100px;
+}

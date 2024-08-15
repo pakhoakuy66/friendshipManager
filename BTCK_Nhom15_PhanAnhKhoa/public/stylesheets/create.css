@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5deb3;
+}
+.head {
+    padding: 15px;
+    background-color: #704b2ee8;
+    margin-bottom: 30px;
+    border-radius: 2em;
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.853);
+}
+.tuo {
+    text-align: center;
+    font-weight: bold;
+}
+.titile {
+    color: #fff;
+    text-align: center;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.icon {
+    display: flex;
+    justify-content: flex-end;
+}
+.ic {
+    color: #f5deb3;
+    transition: 0.5s;
+}
+.ic:hover {
+    color: #704b2ee8;
+}
+.con {
+    padding: 10px;
+}
+#createForm {
+    padding: 20px;
+    width: 500px;
+    height: 400px;
+    background-color: #a3b0ce;
+    border-radius: 10px;
+    margin: 0px 29%;
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.853);
+}
+.ten {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.txt {
+    width: 30rem;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #ffe4e1;
+    transition: background-color 0.3s;
+}
+.txt:hover {
+    background-color: #f8c1c1;
+}
+
+.btn {
+    display: flex;
+    padding: 15px;
+    padding-left: 5em;
+}
+.nut {
+    width: 5em;
+    height: 2em;
+    background-color: #2a9ac0b5;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.5s, border-radius 0.5s, color 0.5s;
+    margin: 0px 3.6em;
+}
+
+input[type="file"] {
+    display: none;
+}
+.up {
+    display: inline-block;
+    text-transform: uppercase;
+    color: #fff;
+    background: #c0392b;
+    text-align: center;
+    padding: 5px 20px;
+    font-size: 18px;
+    user-select: none;
+    cursor: pointer;
+    box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+    border-radius: 3px;
+}
+
+.up i {
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.up:active {
+    transform: scale(0.9);
+}
+
+.nut:hover {
+    background-color: #1a4a5ab5;
+    border-radius: 10px;
+    color: #ccc;
+}
+.mess {
+    text-align: center;
+    font-weight: bold;
+}

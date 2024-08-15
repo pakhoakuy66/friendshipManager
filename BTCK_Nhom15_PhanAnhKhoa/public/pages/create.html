@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add friend</title>
+        <link rel="icon" type="image" href="/images/logoicon.jpg" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+        <link rel="stylesheet" href="/stylesheets/create.css" />
+    </head>
+    <body onload="setFocusName()">
+        <header class="head">
+            <h2 class="titile">Add friends</h2>
+        </header>
+        <p class="tuo">Mời bạn nhập đầy đủ thông tin để hiện nút thêm</p>
+        <form
+            id="createForm"
+            action="/createFriend"
+            enctype="multipart/form-data"
+            method="post"
+        >
+            <div class="icon">
+                <a href="/" class="ic"><i class="fa-solid fa-house"></i></a>
+            </div>
+            <nav class="con">
+                <label class="ten" for="Name">Name:</label>
+                <input class="txt" type="text" id="Name" name="Name" required />
+
+                <label class="ten" for="IDCard">Id CMND:</label>
+                <input
+                    class="txt"
+                    type="number"
+                    id="IDCard"
+                    name="IDCard"
+                    required
+                />
+
+                <label class="ten" for="Countryside">Province/city:</label>
+                <input
+                    class="txt"
+                    type="text"
+                    id="Countryside"
+                    name="Countryside"
+                    required
+                />
+
+                <label class="ten" for="Date">Year of Birth:</label>
+                <input
+                    class="txt"
+                    type="number"
+                    id="Date"
+                    name="Date"
+                    required
+                />
+
+                <input type="file" id="Image" name="Image" />
+                <label class="up" for="Image"
+                    ><i class="fa-solid fa-upload"></i> Upload File</label
+                >
+
+                <div class="btn" id="submitButton" style="display: none">
+                    <button class="nut" type="button" onclick="addFriend()">
+                        Add
+                    </button>
+                    <button class="nut" type="button" onclick="SubmitFriends()">
+                        Submit
+                    </button>
+                </div>
+            </nav>
+            <div class="mess" id="message"></div>
+        </form>
+    </body>
+    <script>
+        var friends = [];
+
+        function addFriend() {
+            var Name = document.getElementById("Name").value;
+            var IDCard = parseInt(document.getElementById("IDCard").value);
+            var Countryside = document.getElementById("Countryside").value;
+            var Date = parseInt(document.getElementById("Date").value);
+            var Image = document.getElementById("Image").files[0]; // Đối tượng hình ảnh (file)
+
+            var friend = {
+                Name: Name,
+                IDCard: IDCard,
+                Countryside: Countryside,
+                Date: Date,
+                Image: Image,
+            };
+            friends.push(friend);
+            outputMessage(`The friend [${Name}] added`, "white");
+        }
+
+        function SubmitFriends() {
+            const Name = document.getElementById("Name").value;
+            const IDCard = parseInt(document.getElementById("IDCard").value);
+            const Countryside = document.getElementById("Countryside").value;
+            const Date = parseInt(document.getElementById("Date").value);
+            const Image = document.getElementById("Image").files[0];
+
+            // Tạo một FormData object để lưu trữ dữ liệu biểu mẫu và hình ảnh
+            const formData = new FormData();
+            formData.append("Name", Name);
+            formData.append("IDCard", IDCard);
+            formData.append("Countryside", Countryside);
+            formData.append("Date", Date);
+            formData.append("Image", Image); // Đối tượng hình ảnh (file)
+
+            // Gửi dữ liệu biểu mẫu và hình ảnh đến server
+            fetch("/create", {
+                method: "POST",
+                body: formData,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                        );
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Response from server: ", data);
+                    alert(data.message);
+                    resetForm();
+                    check();
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("Failed to submit form. Please try again.");
+                });
+        }
+
+        // function SubmitFriends() {
+        //     fetch("/create", {
+        //         method: "post",
+        //         headers: { "Content-Type": "application/json" },
+        //         body: JSON.stringify(friends),
+        //     })
+        //         .then((Response) => Response.json())
+        //         .then((data) => {
+        //             console.log("Response from server:", data);
+        //             alert(data.message);
+        //             resetForm();
+        //         })
+        //         .catch((err) => {
+        //             console.error("Error:", err);
+        //         });
+        // }
+
+        function outputMessage(message, color) {
+            var messageElement = document.getElementById("message");
+            messageElement.textContent = message;
+            messageElement.style.color = color;
+        }
+
+        function resetForm() {
+            document.getElementById("createForm").reset();
+            document.getElementById("message").textContent = " ";
+            setFocusName();
+            friends = [];
+        }
+        function setFocusName() {
+            document.getElementById("Name").focus();
+        }
+
+        var inputs = document.querySelectorAll(".txt");
+        inputs.forEach((input) => {
+            input.addEventListener("input", check);
+        });
+
+        function check() {
+            var Name = document.getElementById("Name").value.trim();
+            var IDCard = document.getElementById("IDCard").value.trim();
+            var Countryside = document
+                .getElementById("Countryside")
+                .value.trim();
+            var DateOfBirth = document.getElementById("Date").value.trim();
+
+            var submitButton = document.getElementById("submitButton");
+            var messageElement = document.getElementById("message");
+
+            messageElement.textContent = "";
+
+            var isValid = true;
+
+            if (Name === "") {
+                outputMessage("Name cannot be empty", "red");
+                isValid = false;
+            }
+
+            if (
+                IDCard === "" ||
+                IDCard.length !== 5 ||
+                isNaN(parseInt(IDCard, 10))
+            ) {
+                outputMessage(
+                    "Invalid ID Card number. Please enter a 5-digit number.",
+                    "red"
+                );
+                isValid = false;
+            }
+
+            if (Countryside === "") {
+                outputMessage("Province/city cannot be empty", "red");
+                isValid = false;
+            }
+
+            if (
+                DateOfBirth === "" ||
+                isNaN(parseInt(DateOfBirth, 10)) ||
+                DateOfBirth <= 1900 ||
+                DateOfBirth > new Date().getFullYear()
+            ) {
+                outputMessage(
+                    "Invalid year of birth. Please enter a valid year.",
+                    "red"
+                );
+                isValid = false;
+            }
+
+            if (isValid) {
+                submitButton.style.display = "block";
+            } else {
+                submitButton.style.display = "none";
+            }
+        }
+    </script>
+</html>
